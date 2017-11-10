@@ -32,6 +32,20 @@ fajo ordenar_por_probabilidad(const fajo& falsos_conocidos, const fajo & a_orden
 /// EJERCICIO 3
 ////
 
+inline Matriz sumar (const Matriz& A, const Matriz& B){
+  Matriz res = crear(A.size(),0);
+  int fila = 0;
+  int col = 0;
+  while (fila < A.size()){
+    col = 0;
+    while (col < A.size()){
+      res[fila][col] = A[fila][col] + B[fila][col];
+      col++;
+    }
+    fila++;
+  }
+  return res;
+}
 inline Matriz multiplicar_strassen(const Matriz& A, const Matriz& B, int K) {
     return multiplicar(A,B);
 }
