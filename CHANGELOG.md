@@ -1,3 +1,7 @@
+## [1.2] - 2017-11-16
+
+- Actualización de normas de entrega
+
 ## [1.1] - 2017-11-10
 
 - Corrección de un typo en una fórmula de Strassen
