@@ -1,6 +1,7 @@
-## [1.2] - 2017-11-16
+## [1.2] - 2017-11-17
 
 - Actualización de normas de entrega
+- Correccion fechas TP3
 
 ## [1.1] - 2017-11-10
 
