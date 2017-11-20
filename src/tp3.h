@@ -167,6 +167,7 @@ inline Matriz multiplicar(const Matriz& A, const Matriz& B) {
  */
 inline Matriz multiplicar_strassen(const Matriz& M1, const Matriz& M2, int K);
 inline Matriz sumar(const Matriz& M1, const Matriz& M2);
+inline Matriz restar(const Matriz& M1, const Matriz& M2);
 
 // TODO: Escribir implementaciones en tp3_impl.h
 #include "tp3_impl.h"
