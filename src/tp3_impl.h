@@ -62,52 +62,87 @@ inline Matriz restar (const Matriz& A, const Matriz& B){
   return res;
 }
 
+inline Matriz unir(const Matriz& c11, const Matriz& c12, const Matriz& c21, const Matriz& c22){
+  int n = c11.size();
+  Matriz res = crear(n*2,0);
+  for (int i = 0; i<n; i++){
+    for (int j = 0; j < n; j++) {
+      res[i][j] += c11[i][j];
+      res[i+n][j] += c12[i][j];
+      res[i][j+n] += c21[i][j];
+      res[i+n][j+n] += c22[i][j];
+    }
+  }
+  return res;
+}
 
 inline Matriz multiplicar_strassen(const Matriz& A, const Matriz& B, int K) {
   int n = A.size();
   if (n <= K)
     return multiplicar(A,B);
+  Matriz a11 = crear(n/2, 0);
+  Matriz a12 = crear(n/2, 0);
+  Matriz a21 = crear(n/2, 0);
+  Matriz a22 = crear(n/2, 0);
+  Matriz b11 = crear(n/2, 0);
+  Matriz b12 = crear(n/2, 0);
+  Matriz b21 = crear(n/2, 0);
+  Matriz b22 = crear(n/2, 0);
+  for(int i=0; i<n/2; i++) {
+    for(int j=0; j<n/2; j++) {
+      a11[i][j] = A[i][j];
+      a21[i][j] = A[i+n/2][j];
+      a12[i][j] = A[i][j+n/2];
+      a22[i][j] = A[i+n/2][j+n/2];
 
-  Matriz a11 (&A[0][0],&A[n/2 -1][n/2 -1]);
-  Matriz a12 (&A[n/2 -1][0],&A[0][n/2 -1]);
-  Matriz a21 (&A[0][n/2 -1],&A[0][n/2 -1]);
-  Matriz a22 (&A[n/2 -1][n/2 -1],&A[n][n]);
-
-  Matriz b11 (&B[0][0],&B[n/2 -1][n/2 -1]);
-  Matriz b12 (&B[n/2 -1][0],&B[0][n/2 -1]);
-  Matriz b21 (&B[0][n/2 -1],&B[0][n/2 -1]);
-  Matriz b22 (&B[n/2 -1][n/2 -1],&B[n][n]);
+      b11[i][j] = B[i][j];
+      b21[i][j] = B[i+n/2][j];
+      b12[i][j] = B[i][j+n/2];
+      b22[i][j] = B[i+n/2][j+n/2];
+    }
+  }
 
   Matriz m1a = sumar (a11,a22);
   Matriz m1b = sumar (b11,b22);
-  Matriz m1 = multiplicar_strassen(m1a,m1b,K);
+  /* Matriz m1 = multiplicar_strassen(m1a,m1b,K); */
+  Matriz m1 = multiplicar(m1a,m1b);
 
   Matriz m2a = sumar (a21,a22);
-  Matriz m2 = multiplicar_strassen(m2a,b11,K);
+  /* Matriz m2 = multiplicar_strassen(m2a,b11,K); */
+  Matriz m2 = multiplicar(m2a,b11);
 
-  Matriz m3b = restar (a12,b22);
-  Matriz m3 = multiplicar_strassen(a11,m3b,K);
+  Matriz m3b = restar (b12,b22);
+  /* Matriz m3 = multiplicar_strassen(a11,m3b,K); */
+  Matriz m3 = multiplicar(a11,m3b);
 
-  Matriz m4b = restar (b21,b22);
-  Matriz m4 = multiplicar_strassen(a22,m4b,K);
+  Matriz m4b = restar (b21,b11);
+  /* Matriz m4 = multiplicar_strassen(a22,m4b,K); */
+  Matriz m4 = multiplicar(a22,m4b);
 
   Matriz m5a = sumar (a11,a12);
-  Matriz m5 = multiplicar_strassen(m5a,b22,K);
+  /* Matriz m5 = multiplicar_strassen(m5a,b22,K); */
+  Matriz m5 = multiplicar(m5a,b22);
 
   Matriz m6a = restar (a21,a11);
   Matriz m6b = sumar (b11,b12);
-  Matriz m6 = multiplicar_strassen(m6a,m6b,K);
+  /* Matriz m6 = multiplicar_strassen(m6a,m6b,K); */
+  Matriz m6 = multiplicar(m6a,m6b);
 
   Matriz m7a = restar (a12,a22);
   Matriz m7b = sumar (b21,b22);
-  Matriz m7 = multiplicar_strassen(m7a,m7b,K);
+  /* Matriz m7 = multiplicar_strassen(m7a,m7b,K); */
+  Matriz m7 = multiplicar(m7a,m7b);
 
-  Matriz c11 = restar(sumar(m1,m4),sumar(m5,m7));
-  Matriz c12 = sumar(m3,m5);
-  Matriz c21 = sumar(m2,m4);
+  Matriz c11 = sumar(restar(m4,m5),sumar(m1,m7));
+  /* Matriz c11 = sumar(restar(sumar(m1,m4),m3),m7); */
+  /* Matriz c11 = restar(sumar(m1,m4),sumar(m5,m7)); */
+  Matriz c21 = sumar(m3,m5);
+  Matriz c12 = sumar(m2,m4);
   Matriz c22 = sumar(restar(m1,m2),sumar(m3,m6));
 
-  return multiplicar(A,B);
+  Matriz res = unir (c11,c12,c21,c22);
+
+  return res;
 }
 
 #endif // TP3_IMPL_H

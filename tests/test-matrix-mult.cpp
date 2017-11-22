@@ -19,15 +19,18 @@ TEST(test_multiplicacion, test_matriz_cuadrada) {
         {0,0,0,2}
     };
 
+    auto res = multiplicar (M1,M2);
+
     // producto con dimension potencia de 2
     auto M3 = multiplicar_strassen(M1,M2,1);
-    EXPECT_EQ(M3, Matriz({
-                             {2,   4,  6,  8},
-                             {10,  8,  6,  4},
-                             {12, 12, 12, 14},
-                             {2,   4,  4,  2}
-                         }
-                  ));
+    // EXPECT_EQ(M3, Matriz({
+    //                          {2,   4,  6,  8},
+    //                          {10,  8,  6,  4},
+    //                          {12, 12, 12, 14},
+    //                          {2,   4,  4,  2}
+    //                      }
+    //               ));
+    EXPECT_EQ(M3,res);
 }
 
 TEST(test_suma, suma_ceros){
@@ -53,6 +56,12 @@ TEST(test_suma, suma_normal){
     {1.3,1.3,1.3}
   };
   EXPECT_EQ(sumar(A,B),C);
+}
+TEST(test_strassen, ceros){
+  Matriz A = crear(4,0);
+  Matriz B = crear(4,0);
+  Matriz C = multiplicar_strassen(A,B,2);
+  EXPECT_EQ(A,C);
 }
 // TEST(test_multiplicacion, test_matriz_gigante) {
 //     // una matriz un poco más grande
