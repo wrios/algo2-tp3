@@ -12,11 +12,16 @@
 
 template <typename iterator, typename bucket>
 vector<bucket> generar_buckets(iterator input_begin, iterator input_end) {
-    return vector<bucket>();
+  vector<bucket>() bucket_by_year (10);
+  for(auto it = input_begin; it != input_end; i++){
+    vector[int(*it)/10].insert(it,*it);
+  }
+    return bucket_by_year;
 }
 
 template <typename bucket>
 vector<typename bucket::value_type> aplanar_buckets(const std::vector<bucket> & B) {
+
     return vector<typename bucket::value_type>();
 }
 
