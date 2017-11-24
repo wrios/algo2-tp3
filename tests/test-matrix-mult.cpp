@@ -63,19 +63,19 @@ TEST(test_strassen, ceros){
   Matriz C = multiplicar_strassen(A,B,2);
   EXPECT_EQ(A,C);
 }
-// TEST(test_multiplicacion, test_matriz_gigante) {
-//     // una matriz un poco más grande
-//     Matriz M4 = crear(1024,1.0);
-//     auto t0 = std::chrono::system_clock::now();
-//     Matriz M5 = multiplicar_strassen(M4, M4, 32);
-//     auto t1 = std::chrono::system_clock::now();
-//     EXPECT_FLOAT_EQ(M5[0][0], M5.size());
+TEST(test_multiplicacion, test_matriz_gigante) {
+    // una matriz un poco más grande
+    Matriz M4 = crear(1024,1.0);
+    auto t0 = std::chrono::system_clock::now();
+    Matriz M5 = multiplicar_strassen(M4, M4, 32);
+    auto t1 = std::chrono::system_clock::now();
+    EXPECT_FLOAT_EQ(M5[0][0], M5.size());
 
-//     auto t2 = std::chrono::system_clock::now();
-//     Matriz M6 = multiplicar_strassen(M4, M4, M4.size());
-//     auto t3 = std::chrono::system_clock::now();
-//     EXPECT_FLOAT_EQ(M5[0][0], M5.size());
-//     auto d = double((t1-t0).count()) / (t3-t2).count();
-//     std::cout << "D: " << d << std::endl;
-//     EXPECT_LT(d, 0.4);
-// }
+    auto t2 = std::chrono::system_clock::now();
+    Matriz M6 = multiplicar_strassen(M4, M4, M4.size());
+    auto t3 = std::chrono::system_clock::now();
+    EXPECT_FLOAT_EQ(M5[0][0], M5.size());
+    auto d = double((t1-t0).count()) / (t3-t2).count();
+    std::cout << "D: " << d << std::endl;
+    EXPECT_LT(d, 0.4);
+}
