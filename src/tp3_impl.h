@@ -102,40 +102,31 @@ inline Matriz multiplicar_strassen(const Matriz& A, const Matriz& B, int K) {
     }
   }
 
-  Matriz m1a = sumar (a11,a22);
-  Matriz m1b = sumar (b11,b22);
-  /* Matriz m1 = multiplicar_strassen(m1a,m1b,K); */
-  Matriz m1 = multiplicar(m1a,m1b);
+  /* Matriz m1a = sumar (a11,a22); */
+  /* Matriz m1b = sumar (b11,b22); */
+  Matriz m1 = multiplicar_strassen(sumar (a11,a22),sumar (b11,b22),K);
 
-  Matriz m2a = sumar (a21,a22);
-  /* Matriz m2 = multiplicar_strassen(m2a,b11,K); */
-  Matriz m2 = multiplicar(m2a,b11);
+  /* Matriz m2a = sumar (a21,a22); */
+  Matriz m2 = multiplicar_strassen(sumar (a21,a22),b11,K);
 
-  Matriz m3b = restar (b12,b22);
-  /* Matriz m3 = multiplicar_strassen(a11,m3b,K); */
-  Matriz m3 = multiplicar(a11,m3b);
+  /* Matriz m3b = restar (b12,b22); */
+  Matriz m3 = multiplicar_strassen(a11,restar (b12,b22),K);
 
-  Matriz m4b = restar (b21,b11);
-  /* Matriz m4 = multiplicar_strassen(a22,m4b,K); */
-  Matriz m4 = multiplicar(a22,m4b);
+  /* Matriz m4b = restar (b21,b11); */
+  Matriz m4 = multiplicar_strassen(a22,restar (b21,b11),K);
 
-  Matriz m5a = sumar (a11,a12);
-  /* Matriz m5 = multiplicar_strassen(m5a,b22,K); */
-  Matriz m5 = multiplicar(m5a,b22);
+  /* Matriz m5a = sumar (a11,a12); */
+  Matriz m5 = multiplicar_strassen(sumar (a11,a12),b22,K);
 
-  Matriz m6a = restar (a21,a11);
-  Matriz m6b = sumar (b11,b12);
-  /* Matriz m6 = multiplicar_strassen(m6a,m6b,K); */
-  Matriz m6 = multiplicar(m6a,m6b);
+  /* Matriz m6a = restar (a21,a11); */
+  /* Matriz m6b = sumar (b11,b12); */
+  Matriz m6 = multiplicar_strassen(restar (a21,a11),sumar (b11,b12),K);
 
-  Matriz m7a = restar (a12,a22);
-  Matriz m7b = sumar (b21,b22);
-  /* Matriz m7 = multiplicar_strassen(m7a,m7b,K); */
-  Matriz m7 = multiplicar(m7a,m7b);
+  /* Matriz m7a = restar (a12,a22); */
+  /* Matriz m7b = sumar (b21,b22); */
+  Matriz m7 = multiplicar_strassen(restar (a12,a22),sumar (b21,b22),K);
 
   Matriz c11 = sumar(restar(m4,m5),sumar(m1,m7));
-  /* Matriz c11 = sumar(restar(sumar(m1,m4),m3),m7); */
-  /* Matriz c11 = restar(sumar(m1,m4),sumar(m5,m7)); */
   Matriz c21 = sumar(m3,m5);
   Matriz c12 = sumar(m2,m4);
   Matriz c22 = sumar(restar(m1,m2),sumar(m3,m6));
