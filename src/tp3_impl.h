@@ -51,7 +51,6 @@ vector<typename bucket::value_type> aplanar_buckets(const std::vector<bucket> & 
   }
   return res;
 
-    /* return vector<typename bucket::value_type>(); */
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -59,8 +58,26 @@ vector<typename bucket::value_type> aplanar_buckets(const std::vector<bucket> & 
 ////
 
 fajo ordenar_por_probabilidad(const fajo& falsos_conocidos, const fajo & a_ordenar) {
-    return a_ordenar;
+  typedef vector<billete>::const_iterator iter_t;
+  typedef std::set<billete> bucket_t;
+  size_t n = falsos_conocidos.size();
+  size_t m = a_ordenar.size();
+  bucket_t falsosXAnio = generar_buckets<iter_t,bucket_t>(falsos_conocidos.begin(),falsos_conocidos.end());
+  fajo res(m);
+  for (size_t i = 0; i < m;++i){
+    billete actual = a_ordenar[i];
+    if (falsosXAnio[int(actual)].count(actual)){
+      billete nuevo(actual.numero_de_serie,probabilidad_max);
+      res.push_back(nuevo);
+    } else {
+      billete nuevo(actual.numero_de_serie,(falsosXAnio[int(actual)]).size());
+      res.push_back(nuevo);
+    }
+  }
+  std::sort(res.begin(), res.end());
+  return res;
 }
+
 
 ///////////////////////////////////////////////////////////////////////////////
 /// EJERCICIO 3
