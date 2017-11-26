@@ -10,19 +10,48 @@
 /// EJERCICIO 1
 ////
 
+template <typename iterator>
+std::pair<int,int> minMax(iterator input_begin, iterator input_end){
+  int min = int(*input_begin);
+  int max = int(*input_begin);
+  while (input_begin != input_end){
+    if (int(*input_begin) > max)
+      max = int(*input_begin);
+    if (int(*input_begin) < min)
+      min = int(*input_begin);
+    input_begin++;
+  }
+  return std::make_pair(min,max);
+}
+
+
 template <typename iterator, typename bucket>
 vector<bucket> generar_buckets(iterator input_begin, iterator input_end) {
-  vector<bucket>() bucket_by_year (10);
-  for(auto it = input_begin; it != input_end; i++){
-    vector[int(*it)/10].insert(it,*it);
+  if (input_begin == input_end){
+    return vector<bucket>();
   }
-    return bucket_by_year;
+  std::pair<int,int> ambos = minMax(input_begin,input_end);
+  int min = ambos.first;
+  int max = ambos.second;
+  vector<bucket> res(max-min+1);
+  for (iterator it = input_begin; it != input_end; ++it){
+    auto actual = &res[int(*it)-min];
+    actual->insert(actual->end(),*it);
+  }
+    return res;
 }
 
 template <typename bucket>
 vector<typename bucket::value_type> aplanar_buckets(const std::vector<bucket> & B) {
+  vector<typename bucket::value_type> res;
+  for (size_t i = 0; i < B.size(); ++i) {
+    for (auto it = B[i].begin(); it != B[i].end(); ++it) {
+      res.insert(res.end(),*it);
+    }
+  }
+  return res;
 
-    return vector<typename bucket::value_type>();
+    /* return vector<typename bucket::value_type>(); */
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -107,28 +136,12 @@ inline Matriz multiplicar_strassen(const Matriz& A, const Matriz& B, int K) {
     }
   }
 
-  /* Matriz m1a = sumar (a11,a22); */
-  /* Matriz m1b = sumar (b11,b22); */
   Matriz m1 = multiplicar_strassen(sumar (a11,a22),sumar (b11,b22),K);
-
-  /* Matriz m2a = sumar (a21,a22); */
   Matriz m2 = multiplicar_strassen(sumar (a21,a22),b11,K);
-
-  /* Matriz m3b = restar (b12,b22); */
   Matriz m3 = multiplicar_strassen(a11,restar (b12,b22),K);
-
-  /* Matriz m4b = restar (b21,b11); */
   Matriz m4 = multiplicar_strassen(a22,restar (b21,b11),K);
-
-  /* Matriz m5a = sumar (a11,a12); */
   Matriz m5 = multiplicar_strassen(sumar (a11,a12),b22,K);
-
-  /* Matriz m6a = restar (a21,a11); */
-  /* Matriz m6b = sumar (b11,b12); */
   Matriz m6 = multiplicar_strassen(restar (a21,a11),sumar (b11,b12),K);
-
-  /* Matriz m7a = restar (a12,a22); */
-  /* Matriz m7b = sumar (b21,b22); */
   Matriz m7 = multiplicar_strassen(restar (a12,a22),sumar (b21,b22),K);
 
   Matriz c11 = sumar(restar(m4,m5),sumar(m1,m7));

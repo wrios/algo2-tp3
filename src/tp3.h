@@ -35,6 +35,10 @@ using std::ostream;
  *  @param input_begin iterador apuntando al comenizo de los datos de entrada
  *  @param input_end   iterador apuntando más allá del final de los datos de entrada
  */
+
+template <typename iterator>
+std::pair<int,int> minMax(iterator input_begin, iterator input_end);
+
 template <typename iterator, typename bucket>
 vector<bucket> generar_buckets(iterator input_begin, iterator input_end);
 
