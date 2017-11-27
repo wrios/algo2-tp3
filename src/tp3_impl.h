@@ -63,15 +63,15 @@ fajo ordenar_por_probabilidad(const fajo& falsos_conocidos, const fajo & a_orden
   typedef std::set<billete> bucket_t;
   size_t n = falsos_conocidos.size();
   size_t m = a_ordenar.size();
-  vector<bucket_t> falsosXAnio = generar_buckets<iter_t,bucket_t>(falsos_conocidos.begin(),falsos_conocidos.end());
+  vector<bucket_t> falsosXAnio = generar_buckets<iter_t, bucket_t>(falsos_conocidos.begin(),falsos_conocidos.end());
   fajo res;
   for (size_t i = 0; i < m;++i){
     auto actual = &a_ordenar[i];
     if (falsosXAnio[int(*actual)-minmax.first].count(*actual)){
-      billete nuevo(actual.numero_de_serie,probabilidad_max);
+      billete nuevo(actual->numero_de_serie,probabilidad_max);
       res.push_back(nuevo);
     } else {
-      billete nuevo(actual->numero_de_serie,(falsosXAnio[int(*actual)]).size());
+      billete nuevo(actual->numero_de_serie,(falsosXAnio[int(*actual)-minmax.first]).size());
       res.push_back(nuevo);
     }
   }
@@ -81,6 +81,7 @@ fajo ordenar_por_probabilidad(const fajo& falsos_conocidos, const fajo & a_orden
     }
   };
   std::sort(res.begin(), res.end(), lt());
+  //  std::reverse(res.begin(), res.end());
   return res;
 }
 

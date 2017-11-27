@@ -75,7 +75,8 @@ struct billete {
     billete(unsigned long long serie) : numero_de_serie(serie), probabilidad_falso(probabilidad_max) {}
     // Constructor alternativo para especifiar un valor de probabilidad
     billete(unsigned long long serie, long prob) : numero_de_serie(serie), probabilidad_falso(prob) {}
-
+    // Constructor billete vacio
+    /* billete(): numero_de_serie(0), probabilidad_falso(probabilidad_max) {} */
     /// \brief operator int devuelve el int correspondiente al año de emisión de un billete
     operator int() const { return numero_de_serie % 10000; }
 
